@@ -1,85 +1,18 @@
-// import React, { useRef, useState } from "react";
-
-// function Form() {
-//   const [post, setPost] = useState({});
-//   //const postForm = useRef()
-//   //const submitHandler = (e)=>{
-//   //e.preventDefault()
-//   // let formeel = document.getElementById('postForm')
-//   // const formdata = new FormData(postForm)
-//   // console.log(formdata)
-//   // const fieldName = e.target.value
-//   // const value = e.target.value
-//   //console.log(postForm.current.elements.name,formdata)
-//   //formHandler(e)
-//   //console.log(post)
-
-//   //}
-//   const formHandler = (e) => {
-//     e.preventDefault();
-//     const fieldName = e.target.name;
-//     const value = e.target.value;
-//     setPost({
-//       ...post,
-//       [fieldName]: value,
-//     });
-//   };
-//   console.log(post);
-//   return (
-//     <form
-//       className="form-group container w-50"
-//       onSubmit={(e) => e.preventDefault()}
-//       encType="multipart/orm-data"
-//     >
-//       <label>Body</label>
-//       <textarea
-//         className="form-control"
-//         name="body"
-//         value={post.body}
-//         onChange={formHandler}
-//       />
-
-//       <label>Title</label>
-//       <input
-//         className="form-control"
-//         type="text"
-//         name="title"
-//         value={post.title}
-//         onChange={formHandler}
-//       />
-
-//       <label>userId</label>
-//       <input
-//         className="form-control"
-//         type="text"
-//         name="userId"
-//         value={post.userId}
-//         onChange={formHandler}
-//       />
-
-//       <button className="btn btn-primary form-control">submit</button>
-//       <br />
-//       {post.title}
-//       {post.body}
-//       {post.userId}
-//     </form>
-//   );
-// }
-
-// export default Form;
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 function EditPost2() {
   const {id} = useParams()
+  const history = useHistory()
   const [post, setPost] = useState({
     body: "",
     title: "",
     userId: "",
     id: "",
   });
+  const [isUpdated, setIsUpdated] = useState()
   const formHandler = (e) => {
     const fieldName = e.target.name;
     const value = e.target.value;
@@ -93,7 +26,24 @@ function EditPost2() {
     console.log("updating post");
     axios
       .put(`http://localhost:8080/posts/${post.id}`, post)
-      .then((responce) => console.log(responce.data));
+      .then((responce) => {
+        setIsUpdated(true)
+        console.log(responce.data)
+        setTimeout(()=>{
+          history.push('/get')
+        },3000)
+      })
+      .catch(error => {
+        setIsUpdated(false)
+      })
+      setPost({
+        ...post,
+        body:'',
+        title:'',
+        userId:'',
+        id:''
+      })
+
   };
 
   useEffect(() => {
@@ -107,10 +57,7 @@ function EditPost2() {
     <div className='bg-dark-center'>
       <form
         className="form-group container w-50"
-        // onSubmit={(e) => {
-        //   e.preventDefault();
-        // }}
-        // encType="multipart/orm-data"
+        
       >
         <label>BODY</label>
         <textarea
@@ -153,6 +100,7 @@ function EditPost2() {
         {post.body}
         {post.userId}
         {post.id} */}
+        {isUpdated && 'updated succesfully'}
       </form>
 
       {/* <br /> */}
