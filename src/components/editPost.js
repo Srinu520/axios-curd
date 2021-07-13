@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 function EditPost() {
@@ -8,6 +8,11 @@ function EditPost() {
     userId: "",
     id: "",
   });
+  // const msg = useState({
+  //   success:false,
+  //   error:''
+  // })
+  const [isUpdated,setIsUpdated] = useState(false)
   const formHandler = (e) => {
     const fieldName = e.target.name;
     const value = e.target.value;
@@ -16,15 +21,26 @@ function EditPost() {
       [fieldName]: value,
     });
   };
-
   const onEditPost = () => {
     console.log("updating post");
     axios
       .put(`http://localhost:8080/posts/${post.id}`, post)
-      .then((responce) => console.log(responce.data));
+      .then((responce) => {
+        setIsUpdated(true)
+        console.log(responce.data)
+      })
+
+      .catch(error => {
+        setIsUpdated(false)
+      })
   };
 
-  console.log(post);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/posts/${post.id}`)
+      .then((res) => setPost(res.data));
+  }, [post.id]);
+
   return (
     <div>
       <form
@@ -60,15 +76,24 @@ function EditPost() {
           onChange={formHandler}
         />
         <label>id</label>
-        <input type="number" name="id" onChange={formHandler}  className="form-control"/>
+        <input
+          type="number"
+          name="id"
+          value={post.id}
+          onChange={formHandler}
+          className="form-control"
+        />
+
+        <button className="btn btn-primary form-control" onClick={onEditPost}>
+          submit
+        </button>
         {post.title}
         {post.body}
         {post.userId}
         {post.id}
+        {isUpdated && 'updated succesfully'}
       </form>
-      <button className="btn btn-primary form-control" onClick={onEditPost}>
-        submit
-      </button>
+
       <br />
     </div>
   );

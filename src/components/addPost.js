@@ -38,7 +38,7 @@ function AddPost() {
   }
   console.log(post);
   return (
-    <div>
+    <div className='bg-dark-center'>
       <form
         className="form-group container w-50"
         onSubmit={(e) => {
@@ -46,7 +46,7 @@ function AddPost() {
         }}
         encType="multipart/orm-data"
       >
-        <label>Body</label>
+        <label>BODY</label>
         <textarea
           className="form-control"
           name="body"
@@ -54,7 +54,7 @@ function AddPost() {
           onChange={formHandler}
         />
 
-        <label>Title</label>
+        <label>TITLE</label>
         <input
           className="form-control"
           type="text"
@@ -63,7 +63,7 @@ function AddPost() {
           onChange={formHandler}
         />
 
-        <label>userId</label>
+        <label>USER ID</label>
         <input
           className="form-control"
           type="text"

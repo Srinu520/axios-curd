@@ -48,3 +48,13 @@
   text-decoration: none;
   border: 1px solid;
 }
+
+.bg-dark-center{
+  background-color: black;
+  color: white;
+  height: 91vh;
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  line-height: 3;
+}

@@ -6,6 +6,7 @@ import DeletePost from "./components/deletePost";
 import AddPost from "./components/addPost";
 import EditPost from "./components/editPost";
 import GetPost from "./components/getPost";
+import EditPost2 from "./components/editpost2";
 
 function App() {
   return (
@@ -14,8 +15,11 @@ function App() {
       <Route path="/add">
         <AddPost />
       </Route>
-      <Route path="/edit">
+      <Route exact path="/edit">
         <EditPost />
+      </Route>
+      <Route path='/edit/:id'>
+        <EditPost2 />
       </Route>
       <Route path="/get">
         <GetPost />
