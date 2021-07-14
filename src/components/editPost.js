@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Link, useHistory } from "react-router-dom";
 
 function EditPost() {
+  let history = useHistory()
   const [post, setPost] = useState({
     body: "",
     title: "",
@@ -28,11 +30,22 @@ function EditPost() {
       .then((responce) => {
         setIsUpdated(true)
         console.log(responce.data)
+        setTimeout(()=>{
+          history.push('/get')
+        },3000)
       })
 
       .catch(error => {
         setIsUpdated(false)
       })
+      setPost({
+        ...post,
+        body:'',
+        title:'',
+        userId:'',
+        id:''
+      })
+
   };
 
   useEffect(() => {
@@ -87,10 +100,6 @@ function EditPost() {
         <button className="btn btn-primary form-control" onClick={onEditPost}>
           submit
         </button>
-        {post.title}
-        {post.body}
-        {post.userId}
-        {post.id}
         {isUpdated && 'updated succesfully'}
       </form>
 

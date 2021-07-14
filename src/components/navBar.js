@@ -6,7 +6,7 @@ function NavBar() {
       <Link className="navLink" to="/add">ADD NEW POST</Link>
       {/* <Link className="navLink" to="/edit">edit</Link> */}
       {/* <Link className="navLink" to="/delete">delete</Link> */}
-      <Link className="navLink" to="/get">ALL POSTS</Link>
+      <Link className="navLink" to="/">ALL POSTS</Link>
     </div>
   );
 }

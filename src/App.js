@@ -21,7 +21,7 @@ function App() {
       <Route path='/edit/:id'>
         <EditPost2 />
       </Route>
-      <Route path="/get">
+      <Route exact path="/">
         <GetPost />
       </Route>
       <Route path="/delete">

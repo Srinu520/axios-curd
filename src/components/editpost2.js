@@ -30,19 +30,13 @@ function EditPost2() {
         setIsUpdated(true)
         console.log(responce.data)
         setTimeout(()=>{
-          history.push('/get')
+          history.push('/')
         },3000)
       })
       .catch(error => {
         setIsUpdated(false)
       })
-      setPost({
-        ...post,
-        body:'',
-        title:'',
-        userId:'',
-        id:''
-      })
+      
 
   };
 
@@ -81,14 +75,16 @@ function EditPost2() {
           className="form-control"
           type="text"
           name="userId"
-          defaultValue={post.userId}
+          value={post.userId}
+          readOnly
           // onChange={formHandler}
         />
         <label>ID</label>
         <input
           type="number"
           name="id"
-          defaultValue={post.id}
+          value={post.id}
+          readOnly
           // onChange={formHandler}
           className="form-control"
         />

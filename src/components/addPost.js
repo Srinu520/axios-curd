@@ -8,7 +8,7 @@ function AddPost() {
     userId: "",
     id: "",
   });
-  const [display, setDisplay] = useState(false)
+  const [display, setDisplay] = useState()
   const formHandler = (e) => {
     const fieldName = e.target.name;
     const value = e.target.value;
@@ -18,21 +18,27 @@ function AddPost() {
     });
   };
 
-  const onAddPost = () => {
+  const onAddPost = (e) => {
     console.log("adding post");
+    e.preventDefault()
     axios
       .post("http://localhost:8080/posts", post)
       .then((responce) => {
         console.log(responce.data)
-        setDisplay(!display)
-      });
+        setDisplay(true)
+      })
+      .catch(err => setDisplay(false))
+      setTimeout(()=>{
+        setDisplay(false)
+        setPost({...post,body:'',title:'',userId:''})
+      },3000)
   };
   const Show = ({post})=>{
     return(
     <>
     <h1>post is added</h1>
     <h2>title-{post.title}</h2>
-    <p>{post.body}</p>
+    <h2>body-<p>{post.body}</p></h2>
     </>
     )
   }
@@ -41,9 +47,7 @@ function AddPost() {
     <div className='bg-dark-center'>
       <form
         className="form-group container w-50"
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
+        onSubmit={onAddPost}
         encType="multipart/orm-data"
       >
         <label>BODY</label>
@@ -52,6 +56,7 @@ function AddPost() {
           name="body"
           value={post.body}
           onChange={formHandler}
+          required
         />
 
         <label>TITLE</label>
@@ -61,6 +66,7 @@ function AddPost() {
           name="title"
           value={post.title}
           onChange={formHandler}
+          required
         />
 
         <label>USER ID</label>
@@ -70,14 +76,17 @@ function AddPost() {
           name="userId"
           value={post.userId}
           onChange={formHandler}
+          required
+          
         />
-        <button className="btn btn-primary form-control" onClick={onAddPost}>
+        <button className="btn btn-primary form-control" >
         submit
       </button>
+      <div className='mt-4'>{display && <Show post={post}/>}</div>
       </form>
       
       <br />
-      {display && <Show post={post}/>}
+      
     </div>
   );
 }
